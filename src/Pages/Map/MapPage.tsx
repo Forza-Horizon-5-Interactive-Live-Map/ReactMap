@@ -18,14 +18,13 @@ const MapPage = () => {
 		zoom: 5,
 	});
 	const maxBounds: LatLngBoundsExpression = [
-		[0, 0],
-    [-187, 221],
-		// [-256, 256],
+		[-69, 34.75],
+    [-187, 221.2],
 	];
 
 	const [playerList, setPlayerList] = useState<udpData[]>([
 		{
-			pos: [-70.9, 219.41],
+			pos: [-127, 129],
 			id: 'toto',
 			name: 'Dercraker',
 		},
