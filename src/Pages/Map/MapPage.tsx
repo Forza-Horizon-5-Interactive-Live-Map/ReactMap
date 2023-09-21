@@ -13,14 +13,13 @@ type udpData = {
 
 const MapPage = () => {
 	const [viewPort, setViewPort] = useState({
-		lat: -128,
+		lat: -85,
 		lng: 128,
 		zoom: 5,
 	});
 	const maxBounds: LatLngBoundsExpression = [
-		[0, 0],
-    [-187, 221],
-		// [-256, 256],
+		[-69, 34.75],
+    [-187, 221.2],
 	];
 
 	const [playerList, setPlayerList] = useState<udpData[]>([
