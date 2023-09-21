@@ -13,7 +13,7 @@ type udpData = {
 
 const MapPage = () => {
 	const [viewPort, setViewPort] = useState({
-		lat: -128,
+		lat: -85,
 		lng: 128,
 		zoom: 5,
 	});
