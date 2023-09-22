@@ -18,13 +18,14 @@ const PlayerList = (props: props) => {
 	const handleShowPlayerList = () =>
 		(playerListRef.current!.style.display = 'block');
 	const handleHidePlayerList = () =>
-		(playerListRef.current!.style.display = 'none');
+		(playerListRef.current!.style.display = 'block');
 
 	const handlePlayerSelected = (playerIp: string) => {
 		const player: MessageDTO | undefined = props.players.find(
 			p => p.ip === playerIp,
 		);
-		if (player) props.moveCenter(player.posX, player.posY);
+		if (player && !player.isDisconnecting)
+			props.moveCenter(player.posX, player.posY);
 	};
 
 	return (
@@ -71,7 +72,7 @@ const PlayerList = (props: props) => {
 								) : (
 									<div className="PlayerWaiting">
 										<span>
-											<AiOutlineDisconnect /> No data recived
+											<AiOutlineDisconnect /> Disconnecting...
 										</span>
 									</div>
 								)}
