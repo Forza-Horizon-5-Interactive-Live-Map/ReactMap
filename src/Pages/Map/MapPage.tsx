@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './MapPage.scss';
 
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -8,115 +8,11 @@ import PlayerList from '../../Component/PlayerList/PlayerList';
 import { MessageDTO } from '../../Services/API/Models/MessageDTO';
 import MapControl from './MapControl';
 
-const getPlayerList = () => [
-	{
-		ip: '109.206.143.49',
-		playerName: '',
-		isPaused: false,
-		isDisconnecting: false,
-		posX: -100,
-		posXDisplay: '-128.00',
-		posY: 140,
-		posYDisplay: '+128.00',
-		speed: 0,
-		speedKmh: 60,
-		speedKmhDisplay: '60 Km/h',
-		speedMph: 0,
-		speedMphDisplay: '',
-		model: 'RS',
-		maker: 'Ford',
-		year: -1,
-		group: 'B',
-		carOrdinal: 2525,
-		weight: 1500,
-	},
-	{
-		ip: '67.184.237.200',
-		playerName: 'Jeffery Sharp',
-		isPaused: true,
-		isDisconnecting: false,
-		posX: 0,
-		posXDisplay: '',
-		posY: 0,
-		posYDisplay: '',
-		speed: 0,
-		speedKmh: 0,
-		speedKmhDisplay: '',
-		speedMph: 0,
-		speedMphDisplay: '',
-		model: '',
-		maker: '',
-		year: 0,
-		group: '',
-		carOrdinal: 0,
-		weight: 0,
-	},
-	{
-		ip: '228.136.131.4',
-		playerName: 'Martin Yates',
-		isPaused: false,
-		isDisconnecting: false,
-		posX: -150,
-		posXDisplay: '-128.00',
-		posY: 70,
-		posYDisplay: '+128.00',
-		speed: 0,
-		speedKmh: 130,
-		speedKmhDisplay: '130 Km/h',
-		speedMph: 0,
-		speedMphDisplay: '',
-		model: 'RS',
-		maker: 'Ford',
-		year: -1,
-		group: 'B',
-		carOrdinal: 2525,
-		weight: 1500,
-	},
-	{
-		ip: '107.16.198.187',
-		playerName: 'Sophia Hughes',
-		isPaused: false,
-		isDisconnecting: false,
-		posX: -128,
-		posXDisplay: '-128.00',
-		posY: 128,
-		posYDisplay: '+128.00',
-		speed: 0,
-		speedKmh: 20,
-		speedKmhDisplay: '20 Km/h',
-		speedMph: 0,
-		speedMphDisplay: '',
-		model: 'RS',
-		maker: 'Ford',
-		year: -1,
-		group: 'B',
-		carOrdinal: 2525,
-		weight: 1500,
-	},
-	{
-		ip: '148.77.122.250',
-		playerName: 'Jose Kelley',
-		isPaused: true,
-		isDisconnecting: true,
-		posX: 0,
-		posXDisplay: '',
-		posY: 0,
-		posYDisplay: '',
-		speed: 0,
-		speedKmh: 0,
-		speedKmhDisplay: '',
-		speedMph: 0,
-		speedMphDisplay: '',
-		model: '',
-		maker: '',
-		year: 0,
-		group: '',
-		carOrdinal: 0,
-		weight: 0,
-	},
-];
-
 const MapPage = () => {
+	const [playerList, setPlayerList] = useState<MessageDTO[]>([]);
+	const [isGetDataEnable, toggleGetData] = useState(false);
+
+
 	const [viewPort, setViewPort] = useState({
 		lat: -128,
 		lng: 128,
@@ -128,7 +24,7 @@ const MapPage = () => {
 		[-69, 34.75],
 		[-187, 221.2],
 	];
-	const [playerList, setPlayerList] = useState<MessageDTO[]>(getPlayerList());
+
 	const moveMapToCenter = (lat: number, lng: number) => {
 		setMoveCenter([lat, lng] as LatLngExpression);
 		setViewPort({ ...viewPort, lat: lat, lng: lng });
@@ -157,7 +53,7 @@ const MapPage = () => {
 				{playerList.map((player: MessageDTO) => (
 					<Marker
 						key={player.ip}
-						position={[player.posX, player.posY] as LatLngExpression}>
+						position={[player.lat, player.lng] as LatLngExpression}>
 						<Popup>
 							Name:{' '}
 							{!player.playerName || player.playerName.trim().length === 0

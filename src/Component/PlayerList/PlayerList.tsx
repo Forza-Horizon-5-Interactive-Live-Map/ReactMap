@@ -2,10 +2,11 @@ import { PiUserListBold } from 'react-icons/pi';
 import { SiSpeedtest } from 'react-icons/si';
 import { BiSolidUser } from 'react-icons/bi';
 import { BsCarFrontFill } from 'react-icons/bs';
+import { FaUserAltSlash } from 'react-icons/fa';
 import { AiOutlinePause, AiOutlineDisconnect } from 'react-icons/ai';
 import './PlayerList.scss';
 import { MessageDTO } from '../../Services/API/Models/MessageDTO';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 interface props {
 	players: MessageDTO[];
@@ -25,7 +26,7 @@ const PlayerList = (props: props) => {
 			p => p.ip === playerIp,
 		);
 		if (player && !player.isDisconnecting)
-			props.moveCenter(player.posX, player.posY);
+			props.moveCenter(player.lat, player.lng);
 	};
 
 	return (
@@ -37,50 +38,62 @@ const PlayerList = (props: props) => {
 				className="PlayerList"
 				ref={playerListRef}
 				onMouseLeave={handleHidePlayerList}>
-				{props.players.map((player: MessageDTO) => (
-					<div className="Player" key={player.ip}>
-						<div
-							className="PlayerName"
-							onClick={() => handlePlayerSelected(player.ip)}>
+				{props.players.length == 0 ? (
+					<div className="Player">
+						<div className="PlayerName">
 							<span>
-								<BiSolidUser />{' '}
-								{!player.playerName || player.playerName.trim().length === 0
-									? 'Unknown'
-									: player.playerName}
+								<FaUserAltSlash /> No player logged
 							</span>
 						</div>
-						{!player.isPaused ? (
-							<>
-								<div className="PlayerSpeed">
-									<SiSpeedtest /> {player.speedKmhDisplay}
-								</div>
-								<div className="PlayerCar">
+					</div>
+				) : (
+					<>
+						{props.players.map((player: MessageDTO) => (
+							<div className="Player" key={player.ip}>
+								<div
+									className="PlayerName"
+									onClick={() => handlePlayerSelected(player.ip)}>
 									<span>
-										<BsCarFrontFill /> {player.maker} {player.model}{' '}
-										{player.year}
+										<BiSolidUser />{' '}
+										{!player.playerName || player.playerName.trim().length === 0
+											? 'Unknown'
+											: player.playerName}
 									</span>
 								</div>
-							</>
-						) : (
-							<>
-								{!player.isDisconnecting ? (
-									<div className="PlayerWaiting">
-										<span>
-											<AiOutlinePause /> Player in menu
-										</span>
-									</div>
+								{!player.isPaused ? (
+									<>
+										<div className="PlayerSpeed">
+											<SiSpeedtest /> {player.speedKmhDisplay}
+										</div>
+										<div className="PlayerCar">
+											<span>
+												<BsCarFrontFill /> {player.maker} {player.model}{' '}
+												{player.year}
+											</span>
+										</div>
+									</>
 								) : (
-									<div className="PlayerWaiting">
-										<span>
-											<AiOutlineDisconnect /> Disconnecting...
-										</span>
-									</div>
+									<>
+										{!player.isDisconnecting ? (
+											<div className="PlayerWaiting">
+												<span>
+													<AiOutlinePause /> Player in menu
+												</span>
+											</div>
+										) : (
+											<div className="PlayerWaiting">
+												<span>
+													<AiOutlineDisconnect /> Disconnecting...
+												</span>
+											</div>
+										)}
+									</>
 								)}
-							</>
-						)}
-						<hr />
-					</div>
-				))}
+								<hr />
+							</div>
+						))}
+					</>
+				)}
 			</div>
 		</>
 	);
