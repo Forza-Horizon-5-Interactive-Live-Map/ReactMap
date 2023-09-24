@@ -9,6 +9,8 @@ import { MessageDTO } from '../../Services/API/Models/MessageDTO';
 import MapControl from './MapControl';
 
 const MapPage = () => {
+  // const tilesServerUrl = 'http://antoinecapitain.fr:57063';
+  const tilesServerUrl = 'http://localhost:8000';
 	const [playerList, setPlayerList] = useState<MessageDTO[]>([]);
 	const [isGetDataEnable, toggleGetData] = useState(false);
 
@@ -49,7 +51,7 @@ const MapPage = () => {
 						setViewPort({ ...viewPort, lat: pos.lat, lng: pos.lng })
 					}
 				/>
-				<TileLayer url={'http://localhost:8000/{z}/{x}/{y}.png'} />
+				<TileLayer url={`${tilesServerUrl}/{z}/{x}/{y}.png`} />
 				{playerList.map((player: MessageDTO) => (
 					<Marker
 						key={player.ip}
