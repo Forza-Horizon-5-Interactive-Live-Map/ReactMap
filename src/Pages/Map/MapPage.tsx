@@ -7,13 +7,13 @@ import MapListener from './MapListener';
 import PlayerList from '../../Component/PlayerList/PlayerList';
 import { MessageDTO } from '../../Services/API/Models/MessageDTO';
 import MapControl from './MapControl';
+import useMapSocket from '../../Hook/useMapSocket';
 
 const MapPage = () => {
-  // const tilesServerUrl = 'http://antoinecapitain.fr:57063';
-  const tilesServerUrl = 'http://localhost:8000';
-	const [playerList, setPlayerList] = useState<MessageDTO[]>([]);
-	const [isGetDataEnable, toggleGetData] = useState(false);
-
+	// const tilesServerUrl = 'http://antoinecapitain.fr:57063';
+	const tilesServerUrl = 'http://localhost:8000';
+	// const [playerList, setPlayerList] = useState<MessageDTO[]>([]);
+	const playerList = useMapSocket('https://localhost:7078/mapUpdatesHub');
 
 	const [viewPort, setViewPort] = useState({
 		lat: -128,
