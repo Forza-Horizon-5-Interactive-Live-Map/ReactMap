@@ -7,20 +7,62 @@ import MapListener from './MapListener';
 import PlayerList from '../../Component/PlayerList/PlayerList';
 import { MessageDTO } from '../../Services/API/Models/MessageDTO';
 import MapControl from './MapControl';
+import useMapSocket from '../../Hook/useMapSocket';
+
+const getPlayerList = (): MessageDTO[] => [
+	{
+		ip: '109.206.143.49',
+		playerName: '',
+		isPaused: false,
+		isDisconnecting: false,
+		posX: -100,
+		posXDisplay: '-128.00',
+		posY: 140,
+    posYDisplay: '+128.00',
+		posZ: 50,
+    posZDisplay: '+50.00',
+    lat: -100,
+    lng: 140,
+		speed: 0,
+		speedKmh: 60,
+		speedKmhDisplay: '60 Km/h',
+		speedMph: 0,
+    speedMphDisplay: '',
+    power:0,
+		powerKw: 0,
+		powerKwDisplay: '',
+		powerCh: 0,
+		powerChDisplay: '',
+		torqueNm: 0,
+		torqueNmDisplay: '',
+		torqueFtLbs: 0,
+		torqueFtLbsDisplay: '',
+		gear: 0,
+		carClass: '',
+		carIndex: 0,
+		carIndexDisplay: '',
+		carDrivetrain: '',
+		cylindersCount: 0,
+		model: 'RS',
+		maker: 'Ford',
+		year: -1,
+		group: 'B',
+		carOrdinal: 2525,
+		weight: 1500,
+	}
+];
 
 const MapPage = () => {
-  // const tilesServerUrl = 'http://antoinecapitain.fr:57063';
-  const tilesServerUrl = 'http://localhost:8000';
-	const [playerList, setPlayerList] = useState<MessageDTO[]>([]);
-	const [isGetDataEnable, toggleGetData] = useState(false);
-
+	// const tilesServerUrl = 'http://antoinecapitain.fr:57063';
+	const tilesServerUrl = 'http://localhost:8000';
+	const playerList = useMapSocket('https://localhost:7078/mapUpdatesHub');
 
 	const [viewPort, setViewPort] = useState({
 		lat: -128,
 		lng: 128,
 		zoom: 5,
 	});
-	const [moveCenter, setMoveCenter] = useState<LatLngExpression>(null);
+	const [moveCenter, setMoveCenter] = useState<LatLngExpression | null>(null);
 
 	const maxBounds: LatLngBoundsExpression = [
 		[-69, 34.75],
@@ -43,7 +85,7 @@ const MapPage = () => {
 				zoom={viewPort.zoom}
 				scrollWheelZoom={true}
 				maxZoom={8}
-				minZoom={4}
+				minZoom={3}
 				maxBounds={maxBounds}
 				crs={CRS.Simple}>
 				<MapListener
