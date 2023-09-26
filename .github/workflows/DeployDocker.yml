@@ -30,7 +30,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           
       - name: Build and push DockerImage
-        run: docker build --platform linux/arm64  --file ./Dockerfile --tag dercraker0/forza5_live_map/react-map:${{ env.dockerTag }} --push .
+        run: docker build --platform linux/arm64  --file ./Dockerfile --tag dercraker0/forza5_live_map/react-map:dev --push .
 
       - name: PUT Request Action to update Stack - STAGING
         uses: fjogeleit/http-request-action@v1.13.0
