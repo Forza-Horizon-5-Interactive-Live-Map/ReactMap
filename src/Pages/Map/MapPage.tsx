@@ -55,7 +55,6 @@ const getPlayerList = (): MessageDTO[] => [
 const MapPage = () => {
 	// const tilesServerUrl = 'http://antoinecapitain.fr:57063';
 	const tilesServerUrl = 'http://localhost:8000';
-	// const [playerList, setPlayerList] = useState<MessageDTO[]>([]);
 	const playerList = useMapSocket('https://localhost:7078/mapUpdatesHub');
 
 	const [viewPort, setViewPort] = useState({
@@ -86,7 +85,7 @@ const MapPage = () => {
 				zoom={viewPort.zoom}
 				scrollWheelZoom={true}
 				maxZoom={8}
-				minZoom={4}
+				minZoom={3}
 				maxBounds={maxBounds}
 				crs={CRS.Simple}>
 				<MapListener

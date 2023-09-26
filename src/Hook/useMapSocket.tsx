@@ -21,8 +21,6 @@ const useMapSocket = (url: string): MessageDTO[] => {
 				.start()
 				.then(() => {
 					connection.on('MapUpdate', message => {
-						console.log('Received message');
-						console.log(message);
 						setMessage(message);
 					});
 				})
@@ -30,7 +28,7 @@ const useMapSocket = (url: string): MessageDTO[] => {
 		}
 	}, [connection]);
 
-	return [message];
+	return message;
 };
 
 export default useMapSocket;
