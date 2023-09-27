@@ -1,6 +1,6 @@
-import { Dialog, Group, TextInput, Button, Text } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { useEffect, useState } from 'react';
+import { Group, TextInput, Button, Text } from '@mantine/core';
+import { useClickOutside } from '@mantine/hooks';
+import { useEffect, useRef, useState } from 'react';
 import { MessageDTO } from '../../Services/API/Models/MessageDTO';
 
 import './EditPlayerNameDialog.scss';
@@ -13,47 +13,56 @@ interface props {
 	closeDialog: () => void;
 }
 const EditPlayerNameDialog = (props: props) => {
-	const [isOpened, state] = useDisclosure(false);
-	const [name, setPlayerName] = useState<string>('');
+  const textInputRef = useRef<HTMLInputElement>(null);
+	const dialogRef = useClickOutside(() => closeDialog());
+  const [name, setPlayerName] = useState<string>('');
+  
 
 	useEffect(() => {
-		props.isDialogOpen ? state.open() : state.close();
-	}, [props.isDialogOpen]);
+		if (props.isDialogOpen)
+    {
+      dialogRef.current?.style.setProperty('display', 'block')
+      textInputRef.current?.focus();
+    }
+    else dialogRef.current?.style.setProperty('display', 'none');
+  }, [props.isDialogOpen]);
+  
+  const closeDialog = () => {
+    setPlayerName('');
+		props.closeDialog();
+  }
 
 	const handleRenamePlayer = () => {
 		const playerName: SetPlayerNameDTO = {
-			ip: props.editPlayer.ip,
+			playerIp: props.editPlayer.ip,
 			playerName: name,
 		};
 
-		PlayerController.UpdatePlayerName(playerName);
-		props.closeDialog();
+    (async () => {
+      await PlayerController.UpdatePlayerName(playerName);
+    })();
+    closeDialog();
 	};
 
 	return (
-		<>
-			<Dialog
-				opened={isOpened}
-				withCloseButton
-				onClose={() => props.closeDialog()}
-				size="lg"
-				radius="md"
-				position={{ bottom: 20, right: 20 }}>
-				<Text size="sm" mb="xs" fw={500}>
-					Rename {props.editPlayer?.playerName}
-				</Text>
-
-				<Group align="flex-end">
-					<TextInput
-						placeholder={props.editPlayer?.playerName}
-						style={{ flex: 1 }}
-						value={name}
-						onChange={e => setPlayerName(e.currentTarget.value)}
-					/>
-					<Button onClick={handleRenamePlayer}>Rename</Button>
-				</Group>
-			</Dialog>
-		</>
+		<div className="EditPlayerNameDialog" ref={dialogRef}>
+			<Text size="sm" mb="xs" fw={500}>
+				Rename {props.editPlayer?.playerName || 'Unknown'}
+			</Text>
+			<Group align="flex-end">
+				<TextInput
+					style={{ flex: 1 }}
+					value={name}
+					onChange={e => setPlayerName(e.currentTarget.value)}
+					onKeyDown={e => e.key === 'Enter' && handleRenamePlayer()}
+					ref={textInputRef}
+					error={name.length === 0}
+				/>
+				<Button onClick={handleRenamePlayer} disabled={name.length === 0}>
+					Rename
+				</Button>
+			</Group>
+		</div>
 	);
 };
 

@@ -17,16 +17,20 @@
   color: #000;
 }
 
-.PlayerList {
+.PlayerContainer {
   display: block;
-	background-color: #F5ECDC;
 	width: 250px;
 	position: absolute;
 	z-index: 1002;
 	top: 12px;
 	right: 12px;
+}
+
+
+.PlayerList {
+	background-color: #F5ECDC;
 	border-radius: 5px;
-	max-height: 96vh;
+	max-height: 43vh;
 	overflow: scroll;
   overflow-x: hidden;
   scrollbar-color: #858585 #F5ECDC;
@@ -41,6 +45,13 @@
   cursor:pointer;
 }
 .PlayerWaiting :hover {
+  cursor:wait;
+}
+.PlayerDisconnect {
+  color: #E05600;
+  font-weight: bold;
+}
+.PlayerDisconnect :hover {
   cursor:wait;
 }
 
