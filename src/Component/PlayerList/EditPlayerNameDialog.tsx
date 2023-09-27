@@ -31,14 +31,7 @@ const EditPlayerNameDialog = (props: props) => {
 	};
 
 	return (
-		<>
-			<Dialog
-				opened={isOpened}
-				withCloseButton
-				onClose={() => props.closeDialog()}
-				size="lg"
-				radius="md"
-				position={{ bottom: 20, right: 20 }}>
+		<div className="EditPlayerNameDialog">
 				<Text size="sm" mb="xs" fw={500}>
 					Rename {props.editPlayer?.playerName}
 				</Text>
@@ -52,8 +45,7 @@ const EditPlayerNameDialog = (props: props) => {
 					/>
 					<Button onClick={handleRenamePlayer}>Rename</Button>
 				</Group>
-			</Dialog>
-		</>
+		</div>
 	);
 };
 
