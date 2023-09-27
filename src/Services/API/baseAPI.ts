@@ -6,7 +6,7 @@ export default class BaseApi {
   static get AppAnonymous() {
     if (!this._appAnonymous) {
       this._appAnonymous = axios.create({
-        baseURL: 'https://localhost:7075',
+        baseURL: import.meta.env.VITE_API_URL,
       });
     }
     return this._appAnonymous;

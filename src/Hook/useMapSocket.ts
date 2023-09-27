@@ -27,7 +27,6 @@ const useMapSocket = (url: string): MessageDTO[] => {
 				.catch(error => console.log(error));
 		}
 	}, [connection]);
-
 	return message;
 };
 

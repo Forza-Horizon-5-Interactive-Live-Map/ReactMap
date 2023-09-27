@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './MapPage.scss';
 
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -13,7 +13,7 @@ const getPlayerList = (): MessageDTO[] => [
 	{
 		ip: '109.206.143.49',
 		playerName: 'Dercraker',
-		isPaused: false,
+		isPaused: true,
 		isDisconnecting: false,
 		posX: -100,
 		posXDisplay: '-128.00',
@@ -43,13 +43,13 @@ const getPlayerList = (): MessageDTO[] => [
 		carIndexDisplay: '',
 		carDrivetrain: '',
 		cylindersCount: 0,
-		model: 'RS',
-		maker: 'Ford',
-		year: -1,
+		model: 'M12S',
+		maker: 'Warthog CST',
+		year: 2554,
 		group: 'B',
 		carOrdinal: 2525,
 		weight: 1500,
-	}
+	},
 ];
 
 const MapPage = () => {

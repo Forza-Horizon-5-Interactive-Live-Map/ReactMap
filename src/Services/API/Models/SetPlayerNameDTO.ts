@@ -1,4 +1,4 @@
 export class SetPlayerNameDTO {
-  public ip: string = '';
+  public playerIp: string = '';
   public playerName: string = '';
 }
