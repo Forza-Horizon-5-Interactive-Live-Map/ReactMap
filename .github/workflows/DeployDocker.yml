@@ -11,8 +11,8 @@ env:
 
 jobs:
 
-  setup:
-    name: setup the agent
+  build_vite:
+    name: build_vite
     runs-on: ubuntu-latest
 
     steps:
@@ -57,24 +57,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-  build_vite:
-      name: Build the vite app
-      runs-on: ubuntu-latest
-      needs: setup
-  
-      steps:
-        - name: Displays the local as ./
-          run: ls
+      - name: Build project
+        working-directory: ../
+        run: npm run build
 
-        - name: Build project
-          working-directory: ../
-          run: npm run build
-  
-        - name: Upload production-ready build files
-          uses: actions/upload-artifact@v3
-          with:
-            name: production-files
-            path: ./dist
+      - name: Upload production-ready build files
+        uses: actions/upload-artifact@v3
+        with:
+          name: production-files
+          path: ./dist
             
   build_docker:
       name: Build & push the docker container
