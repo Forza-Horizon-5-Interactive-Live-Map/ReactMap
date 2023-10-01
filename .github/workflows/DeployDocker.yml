@@ -57,8 +57,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: display current folder
+        shell: bash
+        run: |
+          ls
+
       - name: Build project
-        working-directory: ../
         run: npm run build
 
       - name: Upload production-ready build files
