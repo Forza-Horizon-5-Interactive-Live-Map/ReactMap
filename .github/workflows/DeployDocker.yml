@@ -64,7 +64,7 @@ jobs:
   
       steps:
         - name: Build project
-          working-directory: ./
+          working-directory: ../
           run: npm run build
   
         - name: Upload production-ready build files
