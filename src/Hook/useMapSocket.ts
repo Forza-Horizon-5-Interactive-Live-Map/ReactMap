@@ -13,7 +13,7 @@ const useMapSocket = (url: string): MessageDTO[] => {
 			.build();
 
 		setConnection(connect);
-	}, []);
+	}, [url]);
 
 	useEffect(() => {
 		if (connection) {
