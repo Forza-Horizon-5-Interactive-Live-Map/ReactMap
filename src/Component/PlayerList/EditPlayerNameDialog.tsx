@@ -25,7 +25,7 @@ const EditPlayerNameDialog = (props: props) => {
       textInputRef.current?.focus();
     }
     else dialogRef.current?.style.setProperty('display', 'none');
-  }, [props.isDialogOpen]);
+  }, [props.isDialogOpen, dialogRef]);
   
   const closeDialog = () => {
     setPlayerName('');
