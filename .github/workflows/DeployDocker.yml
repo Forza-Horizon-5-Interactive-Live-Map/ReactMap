@@ -63,6 +63,9 @@ jobs:
       needs: setup
   
       steps:
+        - name: Displays the local as ./
+          run: ls
+
         - name: Build project
           working-directory: ../
           run: npm run build
