@@ -11,8 +11,8 @@ env:
 
 jobs:
 
-  build_app:
-    name: build_vite
+  dockerize_app:
+    name: Setup Agent > Build Vite App > Build Docker Image > Push Docker Image
     runs-on: ubuntu-latest
 
     steps:
@@ -65,26 +65,14 @@ jobs:
       - name: Build project
         run: npm run build
 
-      # - name: Upload production-ready build files
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: production-files
-      #     path: ./dist
-
-      # - name: Download artifact
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: production-files
-      #     path: ./dist
-          
       - name: Build and push DockerImage
-        run: docker build --platform linux/arm64  --file ./Dockerfile --tag dercraker0/forza5_live_map/react-map:dev --push .
+        run: docker build --platform linux/arm64  --file ./Dockerfile --tag dercraker0/react-map:dev --push .
 
         
   deploy:
-    name: Building and deploy Image gametrip-api
+    name: Call portainer to deploy new versions of Docker
     runs-on: ubuntu-latest
-    needs: build_app
+    needs: dockerize_app
     steps:
       - name: PUT Request Action to update Stack - STAGING
         uses: fjogeleit/http-request-action@v1.13.0
