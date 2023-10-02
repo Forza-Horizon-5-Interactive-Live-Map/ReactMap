@@ -77,8 +77,8 @@ jobs:
       - name: PUT Request Action to update Stack - STAGING
         uses: fjogeleit/http-request-action@v1.13.0
         with:
-          url: 'http://portainer.antoinecapitain.fr/api/stacks/6?endpointId=2'
+          url: '${{secrets.PORTAINER_UPDATE_STACK_REACT_MAP_URLAPI}}'
           method: 'PUT'
           timeout: 20000
-          customHeaders: '{ "x-api-key": "ptr_K6DgaD8nqwYk0PyCIaVNJZ4ugZe3jrZCRTJ4wBw0dec=" }'
-          data: '${{ vars.PORTAINER_UPDATE_STACK_REACT_MAP}}'
+          customHeaders: '${{secrets.CUSTOM_HEADER}}'
+          data: '${{ secrets.PORTAINER_UPDATE_STACK_REACT_MAP_DATA}}'
