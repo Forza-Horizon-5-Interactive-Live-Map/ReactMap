@@ -4,7 +4,7 @@ const getPlayerList = (): MessageDTO[] => [
 	{
 		ip: '109.206.143.49',
 		playerName: 'Dercraker',
-		isPaused: true,
+		isPaused: false,
 		isDisconnecting: false,
 		posX: -100,
 		posXDisplay: '-128.00',
