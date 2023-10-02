@@ -80,5 +80,5 @@ jobs:
           url: 'http://portainer.antoinecapitain.fr/api/stacks/6?endpointId=2'
           method: 'PUT'
           timeout: 20000
-          customHeaders: 'x-api-key: "ptr_K6DgaD8nqwYk0PyCIaVNJZ4ugZe3jrZCRTJ4wBw0dec="'
+          customHeaders: '{ "x-api-key": "ptr_K6DgaD8nqwYk0PyCIaVNJZ4ugZe3jrZCRTJ4wBw0dec=" }'
           data: '${{ vars.PORTAINER_UPDATE_STACK_REACT_MAP}}'
