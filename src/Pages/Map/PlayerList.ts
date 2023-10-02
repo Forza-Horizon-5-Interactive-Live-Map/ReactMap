@@ -43,7 +43,7 @@ const getPlayerList = (): MessageDTO[] => [
   },
   {
 		ip: '109.206.143.45',
-		playerName: 'Kilarn123',
+		playerName: 'Fake Data',
 		isPaused: true,
 		isDisconnecting: false,
 		posX: -100,
