@@ -11,7 +11,7 @@ const MapControl = (props: props) => {
   useEffect(() => {
     if (!props.pos) return;
     map.setView(props.pos);
-  },[props.pos]);
+  },[props.pos, map]);
 
 	return null;
 };
