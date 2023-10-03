@@ -8,13 +8,12 @@ import PlayerList, {
 } from '../../Component/PlayerList/PlayerList';
 import { MessageDTO } from '../../Services/API/Models/MessageDTO';
 import MapControl from './MapControl';
-import getPlayerList from './PlayerList';
+import useMapSocket from '../../Hook/useMapSocket';
 
 const MapPage = () => {
 	const tilesServerUrl = import.meta.env.VITE_TILE_SERVER;
 	const [followPlayer, setFollowPlayer] = useState<followPlayer>();
-	const playerList = getPlayerList();
-  // const playerList = useMapSocket(import.meta.env.VITE_MAP_SCOKET_URL);
+  const playerList = useMapSocket(import.meta.env.VITE_MAP_SCOKET_URL);
   
 const [viewPort, setViewPort] = useState({
 	lat: -128,
