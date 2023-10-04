@@ -3,8 +3,8 @@ FROM nginx:stable-alpine
 COPY ./dist /usr/share/nginx/html
 
 COPY nginx/nginx.conf /etc/nginx/conf.d
-COPY nginx/dercraker.fr_private_key.key /etc/nginx/certs
-COPY nginx/dercraker.fr_ssl_certificate.cer /etc/nginx/certs
+COPY nginx/privkey.key /etc/nginx/ssl
+COPY nginx/fullchain.cer /etc/nginx/ssl
 
 EXPOSE 80
 EXPOSE 443

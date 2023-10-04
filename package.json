@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "vite",
     "serveTiles": "python -m http.server 8000 --directory ../MapTiles",
-    "docker Build ARM64 local": "docker build --platform linux/arm64  --file Dockerfile --tag dercraker0/forza5-react-map:dev .",
-    "docker Build ARM64 & Push": "docker build --platform linux/arm64  --file Dockerfile --tag dercraker0/forza5-react-map:dev --push .",
+    "docker Build ARM64 local": "docker build --platform linux/arm64  --file Dockerfile --tag dercraker0/react-map:dev .",
+    "docker Build ARM64 & Push": "docker build --platform linux/arm64  --file Dockerfile --tag dercraker0/react-map:dev --push .",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
