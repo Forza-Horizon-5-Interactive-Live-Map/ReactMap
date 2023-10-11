@@ -2,7 +2,7 @@ import { MessageDTO } from "../../Services/API/Models/MessageDTO";
 
 const getPlayerList = (): MessageDTO[] => [
 	{
-		ip: '109.206.143.49',
+		id: '109.206.143.49',
 		playerName: 'Dercraker',
 		isPaused: false,
 		isDisconnecting: false,
@@ -42,7 +42,7 @@ const getPlayerList = (): MessageDTO[] => [
 		weight: 1500,
   },
   {
-		ip: '109.206.143.45',
+		id: '109.206.143.45',
 		playerName: 'Fake Data',
 		isPaused: true,
 		isDisconnecting: false,

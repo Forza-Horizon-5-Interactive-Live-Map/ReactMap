@@ -11,7 +11,7 @@ import EditPlayerNameDialog from '../EditPlayerName/EditPlayerNameDialog';
 import { useDisclosure } from '@mantine/hooks';
 
 export type folowPlayer = {
-  ip: string | null,
+  id: string | null,
   enable: boolean,
 }
 
@@ -23,13 +23,11 @@ interface props {
 
 const PlayerList = (props: props) => {
 	const playerListRef = useRef<HTMLDivElement>(null);
-	const [editPlayer, setEditPlayer] = useState<MessageDTO>({} as MessageDTO);
-	const [isEditPlayer, setIsEditPlayer] = useState<boolean>(false);
 	const [isFollowPlayer, setFollow] = useDisclosure(false, {
     onClose: () => {
       setFollowedPlayer('');
       props.followPlayer({
-				ip: null,
+				id: null,
 				enable: false,
 			});
     },
@@ -47,7 +45,7 @@ const PlayerList = (props: props) => {
 	const handleFollowPlayer = (player: MessageDTO) => {
     setFollowedPlayer(player.id);
     props.followPlayer({
-      ip: player.id,
+      id: player.id,
       enable: true,
     });
 		if (player.id === followedPlayerIp || !isFollowPlayer) setFollow.toggle();
@@ -125,8 +123,6 @@ const PlayerList = (props: props) => {
 				</div>
 				<EditPlayerNameDialog
 					closeDialog={() => {
-						setIsEditPlayer(false);
-						setEditPlayer({} as MessageDTO);
 					}}
 				/>
 			</div>

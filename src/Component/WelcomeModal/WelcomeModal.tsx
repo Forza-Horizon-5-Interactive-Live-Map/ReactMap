@@ -1,7 +1,7 @@
 import { useDisclosure } from '@mantine/hooks';
 import { Stepper, Button, Group, Text, List, Title, Checkbox } from '@mantine/core';
 import Modal from '@mui/material/Modal';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import EditPlayerNameDialog from '../EditPlayerName/EditPlayerNameDialog';
 import Box from '@mui/material/Box';
 

@@ -9,13 +9,13 @@ import PlayerList, {
 import { MessageDTO } from '../../Services/API/Models/MessageDTO';
 import MapControl from './MapControl';
 import useMapSocket from '../../Hook/useMapSocket';
-import getPlayerList from './PlayerList';
+// import getPlayerList from './PlayerList';
 
 const MapPage = () => {
 	const tilesServerUrl = import.meta.env.VITE_TILE_SERVER;
 	const [followPlayer, setFollowPlayer] = useState<followPlayer>();
-  // const playerList = useMapSocket(import.meta.env.VITE_MAP_SCOKET_URL);
-  const playerList = getPlayerList();
+  const playerList = useMapSocket(import.meta.env.VITE_MAP_SCOKET_URL);
+  // const playerList = getPlayerList();
   
 const [viewPort, setViewPort] = useState({
 	lat: -128,
@@ -37,9 +37,9 @@ const moveMapToCenter = useCallback(
 	[viewPort],
 );
 	useEffect(() => {
-		if (!followPlayer || !followplayer.id || !followPlayer.enable) return;
+		if (!followPlayer || !followPlayer.id || !followPlayer.enable) return;
 
-		const followedPlayer = playerList.find(p => p.id === followplayer.id);
+		const followedPlayer = playerList.find(p => p.id === followPlayer.id);
 		if (!followedPlayer) return;
 		else moveMapToCenter(followedPlayer.lat, followedPlayer.lng);
 	}, [playerList, followPlayer, moveMapToCenter]);
