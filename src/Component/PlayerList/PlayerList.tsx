@@ -7,7 +7,7 @@ import { AiOutlinePause, AiOutlineDisconnect } from 'react-icons/ai';
 import './PlayerList.scss';
 import { MessageDTO } from '../../Services/API/Models/MessageDTO';
 import { useRef, useState } from 'react';
-import EditPlayerNameDialog from './EditPlayerNameDialog';
+import EditPlayerNameDialog from '../EditPlayerName/EditPlayerNameDialog';
 import { useDisclosure } from '@mantine/hooks';
 
 export type folowPlayer = {
@@ -38,29 +38,19 @@ const PlayerList = (props: props) => {
 
 	const handlePlayerSelected = (playerIp: string) => {
 		const player: MessageDTO | undefined = props.players.find(
-			p => p.ip === playerIp,
+			p => p.id === playerIp,
 		);
 		if (player && !player.isDisconnecting)
 			props.moveCenter(player.lat, player.lng);
 	};
 
-	const handleDoubleClickPlayerName = (playerIp: string) => {
-		const player: MessageDTO | undefined = props.players.find(
-			p => p.ip === playerIp,
-		);
-		if (player) {
-			setEditPlayer(player);
-			setIsEditPlayer(true);
-		}
-	};
-
 	const handleFollowPlayer = (player: MessageDTO) => {
-    setFollowedPlayer(player.ip);
+    setFollowedPlayer(player.id);
     props.followPlayer({
-      ip: player.ip,
+      ip: player.id,
       enable: true,
     });
-		if (player.ip === followedPlayerIp || !isFollowPlayer) setFollow.toggle();
+		if (player.id === followedPlayerIp || !isFollowPlayer) setFollow.toggle();
 	};
 
 	return (
@@ -78,14 +68,11 @@ const PlayerList = (props: props) => {
 					) : (
 						<>
 							{props.players.map((player: MessageDTO) => (
-								<div className="Player" key={player.ip}>
+								<div className="Player" key={player.id}>
 									<div>
 										<div
 											className="PlayerName"
-											onClick={() => handlePlayerSelected(player.ip)}
-											onDoubleClick={() =>
-												handleDoubleClickPlayerName(player.ip)
-											}>
+											onClick={() => handlePlayerSelected(player.id)}>
 											<span>
 												<BiSolidUser />{' '}
 												{!player.playerName ||
@@ -96,7 +83,7 @@ const PlayerList = (props: props) => {
 											<span
 												className="followPlayerBt"
 												onClick={() => handleFollowPlayer(player)}>
-												{isFollowPlayer && followedPlayerIp === player.ip ? (
+												{isFollowPlayer && followedPlayerIp === player.id ? (
 													<TbSitemapOff color="red" />
 												) : (
 													<TbSitemap />
@@ -137,8 +124,6 @@ const PlayerList = (props: props) => {
 					)}
 				</div>
 				<EditPlayerNameDialog
-					isDialogOpen={isEditPlayer}
-					editPlayer={editPlayer}
 					closeDialog={() => {
 						setIsEditPlayer(false);
 						setEditPlayer({} as MessageDTO);

@@ -2,7 +2,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { Stepper, Button, Group, Text, List, Title, Checkbox } from '@mantine/core';
 import Modal from '@mui/material/Modal';
 import { ChangeEvent, useEffect, useState } from 'react';
-import EditPlayerNameDialog from '../PlayerList/EditPlayerNameDialog';
+import EditPlayerNameDialog from '../EditPlayerName/EditPlayerNameDialog';
 import Box from '@mui/material/Box';
 
 const WelcomeModal = () => {
@@ -94,10 +94,7 @@ const WelcomeModal = () => {
 								By default, if this is your first visit. Your name will be set
 								to unknown. Use the field below to change your nickname
 							</Text>
-							<EditPlayerNameDialog
-								isDialogOpen={true}
-								closeDialog={() => {}}
-							/>
+							<EditPlayerNameDialog closeDialog={nextStep} />
 						</Stepper.Step>
 						<Stepper.Completed>
 							<Title size="h2" ta="center">
