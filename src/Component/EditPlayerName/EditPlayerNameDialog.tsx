@@ -1,40 +1,29 @@
 import { Group, TextInput, Button, Text } from '@mantine/core';
-import { useClickOutside } from '@mantine/hooks';
-import { useEffect, useRef, useState } from 'react';
-import { MessageDTO } from '../../Services/API/Models/MessageDTO';
+import { useRef, useState } from 'react';
 
 import './EditPlayerNameDialog.scss';
 import { PlayerController } from '../../Services/API/PlayerController';
 import { SetPlayerNameDTO } from '../../Services/API/Models/SetPlayerNameDTO';
+import useClientIp from '../../Hook/useClientIp';
 
 interface props {
-	isDialogOpen: boolean;
-	editPlayer: MessageDTO;
 	closeDialog: () => void;
 }
 const EditPlayerNameDialog = (props: props) => {
   const textInputRef = useRef<HTMLInputElement>(null);
-	const dialogRef = useClickOutside(() => closeDialog());
   const [name, setPlayerName] = useState<string>('');
-  
-
-	useEffect(() => {
-		if (props.isDialogOpen)
-    {
-      dialogRef.current?.style.setProperty('display', 'block')
-      textInputRef.current?.focus();
-    }
-    else dialogRef.current?.style.setProperty('display', 'none');
-  }, [props.isDialogOpen, dialogRef]);
+  const clientIp = useClientIp();
   
   const closeDialog = () => {
     setPlayerName('');
 		props.closeDialog();
   }
 
-	const handleRenamePlayer = () => {
+
+  const handleRenamePlayer = () => {
+    
 		const playerName: SetPlayerNameDTO = {
-			playerIp: props.editPlayer.ip,
+			playerIp: clientIp,
 			playerName: name,
 		};
 
@@ -45,9 +34,9 @@ const EditPlayerNameDialog = (props: props) => {
 	};
 
 	return (
-		<div className="EditPlayerNameDialog" ref={dialogRef}>
+		<div className="EditPlayerNameDialog">
 			<Text size="sm" mb="xs" fw={500}>
-				Rename {props.editPlayer?.playerName || 'Unknown'}
+				Rename username
 			</Text>
 			<Group align="flex-end">
 				<TextInput
