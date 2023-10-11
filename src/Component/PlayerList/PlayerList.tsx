@@ -37,7 +37,9 @@ const PlayerList = (props: props) => {
 	const handlePlayerSelected = (playerIp: string) => {
 		const player: MessageDTO | undefined = props.players.find(
 			p => p.id === playerIp,
-		);
+    );
+    console.log(player);
+    
 		if (player && !player.isDisconnecting)
 			props.moveCenter(player.lat, player.lng);
 	};
@@ -65,7 +67,7 @@ const PlayerList = (props: props) => {
 						</div>
 					) : (
 						<>
-							{props.players.map((player: MessageDTO) => (
+                {props.players.map((player: MessageDTO) => (
 								<div className="Player" key={player.id}>
 									<div>
 										<div
