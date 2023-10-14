@@ -1,9 +1,10 @@
 import { useDisclosure } from '@mantine/hooks';
 import { Stepper, Button, Group, Text, List, Title, Checkbox } from '@mantine/core';
 import Modal from '@mui/material/Modal';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import EditPlayerNameDialog from '../EditPlayerName/EditPlayerNameDialog';
 import Box from '@mui/material/Box';
+import './WelcomeModal.scss'
 
 const WelcomeModal = () => {
   const [opened, ModalState] = useDisclosure(false, {
@@ -15,6 +16,15 @@ const WelcomeModal = () => {
 	});
   const [activeStep, setActiveStep] = useState(0);
   const [isNeverShowChecked, setChecked] = useState(false);
+  const backButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!activeStep && activeStep != 0 || !backButtonRef) return;
+    
+    activeStep === 0
+			? backButtonRef.current?.style.setProperty('display', 'none')
+			: backButtonRef.current?.style.setProperty('display', 'block');
+  }, [activeStep, backButtonRef]);
 
   const nextStep = () => {
     if (activeStep !== 3) setActiveStep(current => current + 1);
@@ -43,8 +53,7 @@ const WelcomeModal = () => {
 		transform: 'translate(-50%, -50%)',
     width: '60vw',
 		bgcolor: '#F5ECDC',
-    border: '2px solid #000',
-    bordRadius: '10px',
+    borderRadius: '10px',
 		boxShadow: 24,
 		p: 4,
 	};
@@ -63,7 +72,7 @@ const WelcomeModal = () => {
 							description="The map principle">
 							<Text size="md" ta="center">
 								On this map, you can view your position and those of other
-								players live, thanks to UDP telemetry data.
+								players at live, with UDP telemetry data.
 							</Text>
 						</Stepper.Step>
 						<Stepper.Step
@@ -94,7 +103,7 @@ const WelcomeModal = () => {
 								By default, if this is your first visit. Your name will be set
 								to unknown. Use the field below to change your nickname
 							</Text>
-							<EditPlayerNameDialog closeDialog={nextStep} />
+							<EditPlayerNameDialog closeDialog={nextStep} isShow />
 						</Stepper.Step>
 						<Stepper.Completed>
 							<Title size="h2" ta="center">
@@ -112,7 +121,11 @@ const WelcomeModal = () => {
 						</Stepper.Completed>
 					</Stepper>
 					<Group justify="center" mt="xl">
-						<Button variant="default" onClick={prevStep}>
+						<Button
+							variant="default"
+							onClick={prevStep}
+							ref={backButtonRef}
+							style={{ display: 'none' }}>
 							Back
 						</Button>
 						<Button onClick={nextStep}>

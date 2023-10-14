@@ -1,5 +1,5 @@
-import { Group, TextInput, Button, Text } from '@mantine/core';
-import { useRef, useState } from 'react';
+import { Group, TextInput, Button } from '@mantine/core';
+import { useEffect, useRef, useState } from 'react';
 
 import './EditPlayerNameDialog.scss';
 import { PlayerController } from '../../Services/API/PlayerController';
@@ -7,10 +7,12 @@ import { SetPlayerNameDTO } from '../../Services/API/Models/SetPlayerNameDTO';
 import useClientIp from '../../Hook/useClientIp';
 
 interface props {
-	closeDialog: () => void;
+  closeDialog: () => void;
+  isShow:boolean;
 }
 const EditPlayerNameDialog = (props: props) => {
   const textInputRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const [name, setPlayerName] = useState<string>('');
   const clientIp = useClientIp();
   
@@ -19,6 +21,13 @@ const EditPlayerNameDialog = (props: props) => {
 		props.closeDialog();
   }
 
+  useEffect(() => {
+    if (!dialogRef) return;
+    
+		props.isShow
+			? dialogRef.current?.style.setProperty('display', 'flex')
+			: dialogRef.current?.style.setProperty('display', 'none');
+	}, [props.isShow]);
 
   const handleRenamePlayer = () => {
     
@@ -34,10 +43,7 @@ const EditPlayerNameDialog = (props: props) => {
 	};
 
 	return (
-		<div className="EditPlayerNameDialog">
-			<Text size="sm" mb="xs" fw={500}>
-				Rename username
-			</Text>
+		<div className="EditPlayerNameDialog" ref={dialogRef}>
 			<Group align="flex-end">
 				<TextInput
 					style={{ flex: 1 }}
@@ -45,7 +51,8 @@ const EditPlayerNameDialog = (props: props) => {
 					onChange={e => setPlayerName(e.currentTarget.value)}
 					onKeyDown={e => e.key === 'Enter' && handleRenamePlayer()}
 					ref={textInputRef}
-					error={name.length === 0}
+          error={name.length === 0}
+          placeholder='New nickname'
 				/>
 				<Button onClick={handleRenamePlayer} disabled={name.length === 0}>
 					Rename

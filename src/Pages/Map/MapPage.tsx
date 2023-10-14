@@ -4,7 +4,7 @@ import './MapPage.scss';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { CRS, LatLngBoundsExpression, LatLngExpression } from 'leaflet';
 import PlayerList, {
-	folowPlayer as followPlayer,
+	followPlayer as followPlayer,
 } from '../../Component/PlayerList/PlayerList';
 import { MessageDTO } from '../../Services/API/Models/MessageDTO';
 import MapControl from './MapControl';

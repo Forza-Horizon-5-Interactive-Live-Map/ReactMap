@@ -1,5 +1,5 @@
 import { SiSpeedtest } from 'react-icons/si';
-import { BiSolidUser } from 'react-icons/bi';
+import { BiSolidUser, BiRename } from 'react-icons/bi';
 import { TbSitemap, TbSitemapOff } from 'react-icons/tb';
 import { BsCarFrontFill } from 'react-icons/bs';
 import { FaUserAltSlash } from 'react-icons/fa';
@@ -10,47 +10,56 @@ import { useRef, useState } from 'react';
 import EditPlayerNameDialog from '../EditPlayerName/EditPlayerNameDialog';
 import { useDisclosure } from '@mantine/hooks';
 
-export type folowPlayer = {
-  id: string | null,
-  enable: boolean,
-}
+export type followPlayer = {
+	id: string | null;
+	enable: boolean;
+};
 
 interface props {
 	players: MessageDTO[];
 	moveCenter(lat: number, lng: number): void;
-	followPlayer(followed: folowPlayer): void;
+	followPlayer(followed: followPlayer): void;
 }
 
 const PlayerList = (props: props) => {
 	const playerListRef = useRef<HTMLDivElement>(null);
+	const buttonRef = useRef<HTMLDivElement>(null);
 	const [isFollowPlayer, setFollow] = useDisclosure(false, {
-    onClose: () => {
-      setFollowedPlayer('');
-      props.followPlayer({
+		onClose: () => {
+			setFollowedPlayer('');
+			props.followPlayer({
 				id: null,
 				enable: false,
 			});
-    },
+		},
 	});
+	const [displayDialog, toggleDialog] = useState(false);
 	const [followedPlayerIp, setFollowedPlayer] = useState('');
 
 	const handlePlayerSelected = (playerIp: string) => {
 		const player: MessageDTO | undefined = props.players.find(
 			p => p.id === playerIp,
-    );
-    console.log(player);
-    
+		);
 		if (player && !player.isDisconnecting)
 			props.moveCenter(player.lat, player.lng);
 	};
 
 	const handleFollowPlayer = (player: MessageDTO) => {
-    setFollowedPlayer(player.id);
-    props.followPlayer({
-      id: player.id,
-      enable: true,
-    });
+		setFollowedPlayer(player.id);
+		props.followPlayer({
+			id: player.id,
+			enable: true,
+		});
 		if (player.id === followedPlayerIp || !isFollowPlayer) setFollow.toggle();
+	};
+
+	const handleDisplayRename = () => {
+		buttonRef.current?.style.setProperty('display', 'none');
+		toggleDialog(true);
+	};
+	const handleHideRename = () => {
+		buttonRef.current?.style.setProperty('display', 'flex');
+		toggleDialog(false);
 	};
 
 	return (
@@ -67,7 +76,7 @@ const PlayerList = (props: props) => {
 						</div>
 					) : (
 						<>
-                {props.players.map((player: MessageDTO) => (
+							{props.players.map((player: MessageDTO) => (
 								<div className="Player" key={player.id}>
 									<div>
 										<div
@@ -123,10 +132,20 @@ const PlayerList = (props: props) => {
 						</>
 					)}
 				</div>
-				<EditPlayerNameDialog
-					closeDialog={() => {
-					}}
-				/>
+				{props.players.length !== 0 ? (
+					<>
+						<div
+							className="EditPlayerNameButton"
+							ref={buttonRef}
+							onMouseOver={handleDisplayRename}>
+							<BiRename />
+						</div>
+						<EditPlayerNameDialog
+							isShow={displayDialog}
+							closeDialog={handleHideRename}
+						/>
+					</>
+				) : null}
 			</div>
 		</>
 	);

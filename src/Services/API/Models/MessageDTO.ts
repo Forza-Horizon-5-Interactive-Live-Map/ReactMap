@@ -1,5 +1,4 @@
 export class MessageDTO {
-  public ip: string = '';
   public id: string = '';
   public playerName: string = '';
   public isPaused: boolean = false;
