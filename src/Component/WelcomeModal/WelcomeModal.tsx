@@ -88,7 +88,8 @@ const WelcomeModal = () => {
 									At the bottom of the page, enable DATA OUT
 								</List.Item>
 								<List.Item>
-									In DATA OUT IP ADDRESS: <Text fw={700}>dercraker.fr</Text>
+									In DATA OUT IP ADDRESS: <Text fw={700}>dercraker.fr</Text> Or 
+									<Text fw={700}>82.67.17.53</Text>
 								</List.Item>
 								<List.Item>
 									In DATA OUT IP PORT: <Text fw={700}>5690</Text>
