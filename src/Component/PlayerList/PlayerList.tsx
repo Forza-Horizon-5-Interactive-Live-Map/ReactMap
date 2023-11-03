@@ -137,7 +137,9 @@ const PlayerList = (props: props) => {
 						<div
 							className="EditPlayerNameButton"
 							ref={buttonRef}
-							onMouseOver={handleDisplayRename}>
+              onClick={handleDisplayRename}
+              title="Rename your player"
+            >
 							<BiRename />
 						</div>
 						<EditPlayerNameDialog

@@ -1,5 +1,6 @@
 import { Group, TextInput, Button } from '@mantine/core';
 import { useEffect, useRef, useState } from 'react';
+import { useOnClickOutside } from 'usehooks-ts';
 
 import './EditPlayerNameDialog.scss';
 import { PlayerController } from '../../Services/API/PlayerController';
@@ -40,7 +41,9 @@ const EditPlayerNameDialog = (props: props) => {
       await PlayerController.UpdatePlayerName(playerName);
     })();
     closeDialog();
-	};
+  };
+  
+  useOnClickOutside(dialogRef, closeDialog);
 
 	return (
 		<div className="EditPlayerNameDialog" ref={dialogRef}>
