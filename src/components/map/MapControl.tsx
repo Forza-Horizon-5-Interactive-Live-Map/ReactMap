@@ -1,17 +1,15 @@
-import { LatLngExpression } from 'leaflet';
+import { useGlobalStore } from '@/lib/store/globalStore';
 import { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 
-type MapControlProps = {
-  pos: LatLngExpression;
-};
+export const MapControl = () => {
+  const moveTo = useGlobalStore(s => s.moveTo);
 
-export const MapControl = ({ pos }: MapControlProps) => {
   const map = useMap();
   useEffect(() => {
-    if (!pos) return;
-    map.setView(pos);
-  }, [pos, map]);
+    if (!moveTo) return;
+    map.setView(moveTo);
+  }, [moveTo, map]);
 
   return null;
 };
