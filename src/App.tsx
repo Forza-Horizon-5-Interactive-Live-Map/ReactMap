@@ -1,16 +1,15 @@
-import MapPage from './Pages/Map/MapPage';
-import './App.css';
 import '@mantine/core/styles.css';
-import WelcomeModal from './Component/WelcomeModal/WelcomeModal';
-
+import './App.css';
+import WelcomeModal from './components/WelcomeModal/WelcomeModal';
+import { MapComponent } from './components/map/MapComponent';
 
 function App() {
   return (
-		<>
-			<WelcomeModal />
-			<MapPage />
-		</>
-	);
+    <>
+      <WelcomeModal />
+      <MapComponent />
+    </>
+  );
 }
 
 export default App;

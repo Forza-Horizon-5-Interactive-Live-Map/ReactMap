@@ -1,17 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
-import './MapPage.scss';
 
+import { MapControl } from '@/components/map/MapControl';
+import { getPlayerList } from '@/components/map/PlayerList';
+import PlayerList, { followPlayer } from '@/components/PlayerList/PlayerList';
+import { MessageDTO } from '@/Services/API/Models/MessageDTO';
 import { CRS, LatLngBoundsExpression, LatLngExpression } from 'leaflet';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import PlayerList, {
-  followPlayer,
-} from '../../Component/PlayerList/PlayerList';
-import { MessageDTO } from '../../Services/API/Models/MessageDTO';
-import MapControl from './MapControl';
-import getPlayerList from './PlayerList';
 
-const MapPage = () => {
+export const MapComponent = () => {
   const tilesServerUrl = import.meta.env.VITE_TILE_SERVER;
+
   const [followPlayer, setFollowPlayer] = useState<followPlayer>();
   // const playerList = useMapSocket(import.meta.env.VITE_MAP_SCOKET_URL);
   const playerList = getPlayerList();
@@ -56,8 +54,8 @@ const MapPage = () => {
         center={[viewPort.lat, viewPort.lng]}
         zoom={viewPort.zoom}
         scrollWheelZoom={true}
-        maxZoom={8}
-        minZoom={4}
+        maxZoom={7}
+        minZoom={3}
         maxBounds={maxBounds}
         crs={CRS.Simple}>
         <TileLayer url={`${tilesServerUrl}/{z}/{x}/{y}.png`} />
@@ -78,5 +76,3 @@ const MapPage = () => {
     </>
   );
 };
-
-export default MapPage;
