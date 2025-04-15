@@ -1,12 +1,9 @@
-import { followPlayer } from '@/components/PlayerList/PlayerList';
 import { MessageDTO } from '@/Services/API/Models/MessageDTO';
 import { create } from 'zustand';
 
 type GlobalStore = {
   playerList: MessageDTO[];
   setPlayerList: (playerList: MessageDTO[]) => void;
-  followPlayer?: followPlayer;
-  setFollowPlayer: (followPlayer?: followPlayer) => void;
 
   viewPort: {
     lat: number;
@@ -27,13 +24,10 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
   playerList: [],
   setPlayerList: (playerList: MessageDTO[]) => set({ playerList }),
 
-  followPlayer: undefined,
-  setFollowPlayer: (followPlayer?: followPlayer) => set({ followPlayer }),
-
   viewPort: {
-    lat: -128,
-    lng: 128,
-    zoom: 5,
+    lat: -0,
+    lng: 0,
+    zoom: 3,
   },
   setViewPort: (viewPort: { lat: number; lng: number; zoom: number }) =>
     set({ viewPort }),
