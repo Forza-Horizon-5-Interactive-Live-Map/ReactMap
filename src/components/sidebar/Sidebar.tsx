@@ -27,8 +27,8 @@ export function SidebarLayout({
         className,
       )}>
       <Sidebar>
-        <SidebarBody className="justify-between gap-10">
-          <div className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+        <SidebarBody className="justify-between gap-10 px-3">
+          <div className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden px-0">
             <Typography variant="h4" className="text-center">
               FH5 Live Map
             </Typography>
@@ -37,7 +37,7 @@ export function SidebarLayout({
         </SidebarBody>
       </Sidebar>
 
-      <div className="m-2 flex flex-1">{children}</div>
+      <div className="my-2 mr-2 flex flex-1">{children}</div>
     </div>
   );
 }

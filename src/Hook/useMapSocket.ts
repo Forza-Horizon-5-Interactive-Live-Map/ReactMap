@@ -1,33 +1,40 @@
-import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
-import { useEffect, useState } from 'react';
-import { MessageDTO } from '../Services/API/Models/MessageDTO';
+import { useGlobalStore } from '@/lib/store/globalStore';
+import { HubConnectionBuilder } from '@microsoft/signalr';
+import { useEffect, useRef } from 'react';
 
-const useMapSocket = (url: string): MessageDTO[] => {
-	const [connection, setConnection] = useState<null | HubConnection>(null);
-	const [message, setMessage] = useState<MessageDTO[]>([]);
+const useMapSocket = () => {
+  const setPlayerList = useGlobalStore(s => s.setPlayerList);
+  const connectionRef = useRef<signalR.HubConnection | null>(null);
 
-	useEffect(() => {
-		const connect = new HubConnectionBuilder()
-			.withUrl(url)
-			.withAutomaticReconnect()
-			.build();
+  useEffect(() => {
+    const connect = new HubConnectionBuilder()
+      .withUrl('http://localhost:32700/mapUpdatesHub')
+      .withAutomaticReconnect()
+      .build();
 
-		setConnection(connect);
-	}, [url]);
+    connect
+      .start()
+      .then(() => {
+        console.log('✅ SignalR connected');
 
-	useEffect(() => {
-		if (connection) {
-			connection
-				.start()
-				.then(() => {
-					connection.on('MapUpdate', message => {
-						setMessage(message);
-					});
-				})
-				.catch(error => console.log(error));
-		}
-	}, [connection]);
-	return message;
+        connect.on('MapUpdate', data => {
+          console.log('🗺️ Update reçu :', data);
+          setPlayerList(data);
+          connectionRef.current = connect;
+        });
+      })
+      .catch(err => {
+        console.error('❌ SignalR error:', err);
+      });
+
+    return () => {
+      if (connectionRef.current) {
+        connectionRef.current.stop().catch(err => {
+          console.error('❌ Error during disconnect:', err);
+        });
+      }
+    };
+  }, []);
 };
 
 export default useMapSocket;
