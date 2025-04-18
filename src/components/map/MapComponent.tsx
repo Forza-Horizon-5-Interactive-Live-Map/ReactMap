@@ -7,21 +7,20 @@ import { MapControl } from './MapControl';
 
 export const MapComponent = () => {
   const playerList = useGlobalStore(s => s.playerList);
-  const viewPort = useGlobalStore(s => s.viewPort);
 
   const tilesServerUrl = import.meta.env.VITE_TILE_SERVER;
 
   const maxBounds: LatLngBoundsExpression = [
-    [-69, 34.75],
-    [-187, 221.2],
+    [-49, 1],
+    [-205, 253],
   ];
 
   return (
     <>
       <MapContainer
         className="rounded-2xl"
-        center={[viewPort.lat, viewPort.lng]}
-        zoom={viewPort.zoom}
+        center={[-0, 0]}
+        zoom={3}
         scrollWheelZoom={true}
         maxZoom={7}
         minZoom={3}
