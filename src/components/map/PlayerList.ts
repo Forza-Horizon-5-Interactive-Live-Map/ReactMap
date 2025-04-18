@@ -2,7 +2,8 @@ import { MessageDTO } from '@/Services/API/Models/MessageDTO';
 
 export const getPlayerList = (): MessageDTO[] => [
   {
-    id: '109.206.143.49',
+    id: '82.67.47.156',
+    ip: '82.67.47.156',
     playerName: 'Dercraker',
     isPaused: false,
     isDisconnecting: false,
@@ -43,6 +44,7 @@ export const getPlayerList = (): MessageDTO[] => [
   },
   {
     id: '109.206.143.45',
+    ip: '109.206.143.45',
     playerName: 'Nini',
     isPaused: true,
     isDisconnecting: false,

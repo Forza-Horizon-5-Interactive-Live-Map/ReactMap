@@ -1,17 +1,22 @@
 import { PlayerCard } from '@/components/player/playerCard';
+import useClientIp from '@/Hook/useClientIp';
 import { useGlobalStore } from '@/lib/store/globalStore';
-import { useState } from 'react';
+import { useSidebarStore } from '@/lib/store/sidebarStore';
 import { Typography } from '../ui/typography';
 
 export const SideBarPlayerList = () => {
   const playerList = useGlobalStore(s => s.playerList);
+  const expandedId = useSidebarStore(s => s.expandedId);
+  const setExpandedId = useSidebarStore(s => s.setExpandedId);
 
-  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const clientIp = useClientIp();
+
+  const filteredPlayerList = playerList.filter(p => p.ip !== clientIp);
 
   return (
     <div className="mt-8 flex flex-col gap-1">
-      {playerList.length > 0 ? (
-        playerList.map(player => (
+      {filteredPlayerList.length > 0 ? (
+        filteredPlayerList.map(player => (
           <PlayerCard
             key={player.id}
             player={player}

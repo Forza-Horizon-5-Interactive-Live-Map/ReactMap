@@ -4,6 +4,7 @@ import { Typography } from '@mui/material';
 import { IconMenu2, IconX } from '@tabler/icons-react';
 import { AnimatePresence, motion } from 'motion/react';
 import React, { useState } from 'react';
+import { SideBarCurrentPlayer } from './SideBarCurrentPlayer';
 import { SideBarPlayerList } from './SideBarPlayerList';
 
 interface Links {
@@ -32,6 +33,7 @@ export function SidebarLayout({
             <Typography variant="h4" className="text-center">
               FH5 Live Map
             </Typography>
+            <SideBarCurrentPlayer />
             <SideBarPlayerList />
           </div>
         </SidebarBody>

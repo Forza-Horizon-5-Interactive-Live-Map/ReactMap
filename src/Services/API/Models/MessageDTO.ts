@@ -1,5 +1,6 @@
 export class MessageDTO {
   public id: string = '';
+  public ip: string = '';
   public playerName: string = '';
   public isPaused: boolean = false;
   public isDisconnecting: boolean = false;
@@ -9,7 +10,7 @@ export class MessageDTO {
   public posYDisplay: string = '';
   public posZ: number = 0;
   public posZDisplay: string = '';
-  
+
   // computed position for map
   public lat: number = 0;
   public lng: number = 0;
@@ -30,14 +31,13 @@ export class MessageDTO {
   public torqueFtLbs: number = 0;
   public torqueFtLbsDisplay: string = '';
   public gear: number = 0;
-  
+
   //car
   public carClass: string = '';
   public carIndex: number = 0;
   public carIndexDisplay: string = '';
   public carDrivetrain: string = '';
   public cylindersCount: number = 0;
-
 
   // car model
   public model: string = '';
