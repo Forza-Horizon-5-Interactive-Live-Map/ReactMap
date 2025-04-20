@@ -14,14 +14,15 @@ export const SideBarPlayerList = () => {
   const filteredPlayerList = playerList.filter(p => p.ip !== clientIp);
 
   return (
-    <div className="mt-8 flex flex-col gap-1">
-      {filteredPlayerList.length > 0 ? (
+    <div className="flex flex-col gap-1">
+      {playerList.length > 0 ? (
         filteredPlayerList.map(player => (
           <PlayerCard
             key={player.id}
             player={player}
             isExpanded={expandedId === player.id}
             onExpand={id => setExpandedId(id === expandedId ? null : id)}
+            isCurrentPlayer={player.ip === clientIp}
           />
         ))
       ) : (

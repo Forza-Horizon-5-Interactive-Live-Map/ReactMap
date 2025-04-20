@@ -13,6 +13,8 @@ function App() {
     setPlayerList(playerListDto);
   }, [playerListDto, setPlayerList]);
 
+  // useMapSocket();
+
   return (
     <>
       <WelcomeModal />

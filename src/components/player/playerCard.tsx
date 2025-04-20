@@ -8,7 +8,11 @@ import {
 } from '@/components/ui/card';
 import { Typography } from '@/components/ui/typography';
 import { useGlobalStore } from '@/lib/store/globalStore';
+import { useSidebarStore } from '@/lib/store/sidebarStore';
 import { MessageDTO } from '@/Services/API/Models/MessageDTO';
+import { SetPlayerNameDTO } from '@/Services/API/Models/SetPlayerNameDTO';
+import { PlayerController } from '@/Services/API/PlayerController';
+import { FormControl } from '@mui/material';
 import { IconEngine, IconManualGearbox } from '@tabler/icons-react';
 import {
   Car,
@@ -22,12 +26,16 @@ import {
   Weight,
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
+import { toast } from 'sonner';
+import { z } from 'zod';
+import { Form, FormField, FormItem, FormMessage, useZodForm } from '../ui/form';
+import { Input } from '../ui/input';
 import { InlineTooltip } from '../ui/tooltip';
-
 type PlayerCardProps = {
   player: MessageDTO;
   isExpanded: boolean;
   onExpand: (id: string | null) => void;
+  isCurrentPlayer?: boolean;
 };
 
 export const PlayerCard = ({
@@ -36,21 +44,88 @@ export const PlayerCard = ({
   onExpand,
 }: PlayerCardProps) => {
   const setViewTo = useGlobalStore(s => s.setViewTo);
+  const followPlayer = useGlobalStore(s => s.followPlayer);
+  const setFollowPlayer = useGlobalStore(s => s.setFollowPlayer);
+
+  const setOveredId = useSidebarStore(s => s.setOveredId);
+
+  const formSchema = z.object({
+    playerName: z.string().min(1),
+  });
+
+  const form = useZodForm({
+    schema: formSchema,
+    defaultValues: {
+      playerName: player.playerName,
+    },
+  });
+
+  const handleSubmit = async () => {
+    try {
+      const playerNameDto: SetPlayerNameDTO = {
+        playerIp: player.ip,
+        playerName: form.getValues('playerName'),
+      };
+      console.log('🚀 ~ handleSubmit ~ playerNameDto:', playerNameDto);
+
+      const res = await PlayerController.UpdatePlayerName(playerNameDto);
+      if (res.status === 200) {
+        toast.success('Player name updated');
+      } else {
+        throw null;
+      }
+    } catch (error) {
+      form.reset();
+      toast.error('Failed to update player name', {
+        description: 'Please try again later',
+      });
+    }
+  };
+
+  const handleLocate = (e: any) => {
+    if (e.ctrlKey) {
+      setFollowPlayer(followPlayer ? null : player);
+      toast.success('Following player');
+    } else {
+      setViewTo(player.lat, player.lng);
+      toast.success('Viewing player location');
+    }
+  };
+
   return (
-    <Card className="py-2 hover:bg-background">
+    <Card
+      className="py-2 hover:bg-background"
+      onMouseEnter={() => setOveredId(player.id)}
+      onMouseLeave={() => setOveredId(null)}>
       <CardHeader className="px-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            {true ? (
+            {!followPlayer ? (
               <Locate
-                onClick={() => setViewTo(player.lat, player.lng)}
+                onClick={e => handleLocate(e)}
                 className="cursor-pointer"
               />
             ) : (
-              <LocateFixed />
+              <LocateFixed
+                className="text-blue-500 cursor-pointer"
+                onClick={e => handleLocate(e)}
+              />
             )}
             <CardTitle className="max-w-36 truncate">
-              {player.playerName}
+              <Form form={form} onSubmit={handleSubmit}>
+                <FormField
+                  control={form.control}
+                  name="playerName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </Form>
             </CardTitle>
           </div>
           <div className="flex items-center">
@@ -61,6 +136,7 @@ export const PlayerCard = ({
           </div>
         </div>
         <CardDescription>
+          <Typography variant="muted">ip: {player.ip}</Typography>
           {player.isPaused && <Typography>Paused</Typography>}
           {player.isDisconnecting && <Typography>Disconnecting</Typography>}
         </CardDescription>

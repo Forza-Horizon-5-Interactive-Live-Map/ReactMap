@@ -3,12 +3,16 @@ import { HubConnectionBuilder } from '@microsoft/signalr';
 import { useEffect, useRef } from 'react';
 
 const useMapSocket = () => {
+  const followPlayer = useGlobalStore(s => s.followPlayer);
+  const setFollowPlayer = useGlobalStore(s => s.setFollowPlayer);
+  const setViewTo = useGlobalStore(s => s.setViewTo);
+
   const setPlayerList = useGlobalStore(s => s.setPlayerList);
   const connectionRef = useRef<signalR.HubConnection | null>(null);
 
   useEffect(() => {
     const connect = new HubConnectionBuilder()
-      .withUrl('http://localhost:32700/mapUpdatesHub')
+      .withUrl(import.meta.env.VITE_MAP_SOCKET_URL)
       .withAutomaticReconnect()
       .build();
 
@@ -18,9 +22,14 @@ const useMapSocket = () => {
         console.log('✅ SignalR connected');
 
         connect.on('MapUpdate', data => {
-          console.log('🗺️ Update reçu :', data);
           setPlayerList(data);
           connectionRef.current = connect;
+
+          if (followPlayer) {
+            const player = data.find((p: any) => p.id === followPlayer.id);
+            if (player) setViewTo(player.lat, player.lng);
+            else setFollowPlayer(null);
+          }
         });
       })
       .catch(err => {
@@ -34,7 +43,7 @@ const useMapSocket = () => {
         });
       }
     };
-  }, []);
+  }, [followPlayer]);
 };
 
 export default useMapSocket;

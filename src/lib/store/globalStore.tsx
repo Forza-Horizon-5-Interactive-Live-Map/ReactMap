@@ -5,6 +5,9 @@ type GlobalStore = {
   playerList: MessageDTO[];
   setPlayerList: (playerList: MessageDTO[]) => void;
 
+  followPlayer: MessageDTO | null;
+  setFollowPlayer: (followPlayer: MessageDTO | null) => void;
+
   moveTo: {
     lat: number;
     lng: number;
@@ -16,9 +19,15 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
   playerList: [],
   setPlayerList: (playerList: MessageDTO[]) => set({ playerList }),
 
+  followPlayer: null,
+  setFollowPlayer: (followPlayer: MessageDTO | null) => set({ followPlayer }),
+
   moveTo: {
     lat: 0,
     lng: 0,
   },
-  setViewTo: (lat: number, lng: number) => set({ moveTo: { lat, lng } }),
+  setViewTo: (lat: number, lng: number) => {
+    console.log('🚀 ~ setViewTo ~ lat:', lat, lng);
+    set({ moveTo: { lat, lng } });
+  },
 }));

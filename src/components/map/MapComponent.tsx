@@ -1,4 +1,5 @@
 import { useGlobalStore } from '@/lib/store/globalStore';
+import { useSidebarStore } from '@/lib/store/sidebarStore';
 import { MessageDTO } from '@/Services/API/Models/MessageDTO';
 import { CRS, LatLngBoundsExpression, LatLngExpression } from 'leaflet';
 import { MapContainer, Popup, TileLayer } from 'react-leaflet';
@@ -7,19 +8,20 @@ import { MapControl } from './MapControl';
 
 export const MapComponent = () => {
   const playerList = useGlobalStore(s => s.playerList);
+  const overedId = useSidebarStore(s => s.overedId);
 
   const tilesServerUrl = import.meta.env.VITE_TILE_SERVER;
 
   const maxBounds: LatLngBoundsExpression = [
-    [-49, 1],
-    [-205, 253],
+    [-71, 36.7],
+    [-184.7, 219],
   ];
 
   return (
     <>
       <MapContainer
         className="rounded-2xl"
-        center={[-0, 0]}
+        center={[-128, 128]}
         zoom={3}
         scrollWheelZoom={true}
         maxZoom={7}
@@ -30,7 +32,8 @@ export const MapComponent = () => {
         {playerList.map((player: MessageDTO) => (
           <PlayerMarker
             key={player.id}
-            position={[player.lat, player.lng] as LatLngExpression}>
+            position={[player.lat, player.lng] as LatLngExpression}
+            isOvered={overedId === player.id}>
             <Popup>
               Name:{' '}
               {!player.playerName || player.playerName.trim().length === 0
