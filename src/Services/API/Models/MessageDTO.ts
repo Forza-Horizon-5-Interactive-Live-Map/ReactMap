@@ -11,6 +11,13 @@ export class MessageDTO {
   public posZ: number = 0;
   public posZDisplay: string = '';
 
+  public pitch: number = 0;
+  public pitch360: number = 0;
+  public yaw: number = 0;
+  public yaw360: number = 0;
+  public roll: number = 0;
+  public roll360: number = 0;
+
   // computed position for map
   public lat: number = 0;
   public lng: number = 0;

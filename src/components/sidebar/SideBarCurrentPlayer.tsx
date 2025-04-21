@@ -10,7 +10,6 @@ export const SideBarCurrentPlayer = () => {
   const setExpandedId = useSidebarStore(s => s.setExpandedId);
 
   const clientIp = useClientIp();
-  console.log('🚀 ~ SideBarCurrentPlayer ~ clientIp:', clientIp);
 
   const currentPlayer = playerList.find(p => p.ip === clientIp);
 

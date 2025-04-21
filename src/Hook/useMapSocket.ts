@@ -1,4 +1,5 @@
 import { useGlobalStore } from '@/lib/store/globalStore';
+import { MessageDTO } from '@/Services/API/Models/MessageDTO';
 import { HubConnectionBuilder } from '@microsoft/signalr';
 import { useEffect, useRef } from 'react';
 
@@ -21,7 +22,11 @@ const useMapSocket = () => {
       .then(() => {
         console.log('✅ SignalR connected');
 
-        connect.on('MapUpdate', data => {
+        connect.on('MapUpdate', (data: MessageDTO[]) => {
+          console.log(
+            '🚀 ~ connect.on ~ data:',
+            data.map(p => p.yaw360),
+          );
           setPlayerList(data);
           connectionRef.current = connect;
 

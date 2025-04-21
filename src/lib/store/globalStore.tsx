@@ -27,7 +27,6 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
     lng: 0,
   },
   setViewTo: (lat: number, lng: number) => {
-    console.log('🚀 ~ setViewTo ~ lat:', lat, lng);
     set({ moveTo: { lat, lng } });
   },
 }));

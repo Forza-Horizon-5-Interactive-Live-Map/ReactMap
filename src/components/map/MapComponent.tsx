@@ -2,6 +2,7 @@ import { useGlobalStore } from '@/lib/store/globalStore';
 import { useSidebarStore } from '@/lib/store/sidebarStore';
 import { MessageDTO } from '@/Services/API/Models/MessageDTO';
 import { CRS, LatLngBoundsExpression, LatLngExpression } from 'leaflet';
+import { useMemo } from 'react';
 import { MapContainer, Popup, TileLayer } from 'react-leaflet';
 import { PlayerMarker } from '../player/PlayerMarker';
 import { MapControl } from './MapControl';
@@ -17,6 +18,24 @@ export const MapComponent = () => {
     [-184.7, 219],
   ];
 
+  const getMarker = useMemo(() => {
+    return playerList.map((player: MessageDTO) => (
+      <PlayerMarker
+        key={player.id}
+        position={[player.lat, player.lng] as LatLngExpression}
+        rotationAngle={player.yaw360}
+        isOvered={overedId === player.id}
+        isDebug={false}>
+        <Popup>
+          Name:{' '}
+          {!player.playerName || player.playerName.trim().length === 0
+            ? 'Unknown'
+            : player.playerName}
+        </Popup>
+      </PlayerMarker>
+    ));
+  }, [playerList]);
+
   return (
     <>
       <MapContainer
@@ -29,19 +48,7 @@ export const MapComponent = () => {
         maxBounds={maxBounds}
         crs={CRS.Simple}>
         <TileLayer url={`${tilesServerUrl}/{z}/{x}/{y}.png`} />
-        {playerList.map((player: MessageDTO) => (
-          <PlayerMarker
-            key={player.id}
-            position={[player.lat, player.lng] as LatLngExpression}
-            isOvered={overedId === player.id}>
-            <Popup>
-              Name:{' '}
-              {!player.playerName || player.playerName.trim().length === 0
-                ? 'Unknown'
-                : player.playerName}
-            </Popup>
-          </PlayerMarker>
-        ))}
+        {getMarker}
         <MapControl />
       </MapContainer>
     </>
