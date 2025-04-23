@@ -1,7 +1,6 @@
-import '@mantine/core/styles.css';
 import './App.css';
 import useMapSocket from './Hook/useMapSocket';
-import WelcomeModal from './components/WelcomeModal/WelcomeModal';
+import { WelcomeDialog } from './components/WelcomDialog/welcomeDialog';
 import { MapComponent } from './components/map/MapComponent';
 function App() {
   // const setPlayerList = useGlobalStore(s => s.setPlayerList);
@@ -15,7 +14,7 @@ function App() {
 
   return (
     <>
-      <WelcomeModal />
+      <WelcomeDialog />
       <MapComponent />
     </>
   );
